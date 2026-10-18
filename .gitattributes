@@ -1,0 +1,12 @@
+# Normalise line endings; the .js files are shipped verbatim into a page and a
+# stray CR is invisible until it is not.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
+
+# Generated. `linguist-generated` keeps diffs out of review by collapse and stops
+# GitHub counting a 4 KB path table as hand-written source.
+fish-path.js linguist-generated=true
+icon.svg linguist-generated=true

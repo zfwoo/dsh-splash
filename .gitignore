@@ -1,0 +1,20 @@
+# No dependencies, and nothing to build — the only thing worth ignoring is the
+# preview gallery, which is generated from the real injection table.
+node_modules/
+preview.html
+docs/*.tmp
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor scratch
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*

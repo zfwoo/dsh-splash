@@ -1,0 +1,65 @@
+{
+  "name": "@local/dsh-splash",
+  "version": "1.0.0",
+  "description": "A cyberpunk boot splash for DeepSeek Harness: a full-screen overlay injected before React mounts, a progress meter and boot log on one timeline, skip on any key, and its own settings page.",
+  "type": "module",
+  "license": "MIT",
+  "icon": "./icon.svg",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "splash",
+    "splash-screen",
+    "boot",
+    "boot-screen",
+    "cyberpunk",
+    "theme"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node tools/smoke.mjs && node tools/page.test.mjs && node tools/controller.test.mjs",
+    "test:profile": "node tools/check-profile.mjs web && node tools/check-profile.mjs desktop",
+    "preview": "node tools/preview.mjs",
+    "link": "node tools/link-profile.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/dsh-splash.git"
+  },
+  "homepage": "https://github.com/OWNER/dsh-splash#readme",
+  "bugs": {
+    "url": "https://github.com/OWNER/dsh-splash/issues"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "controller.js",
+    "client.js",
+    "fish-path.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "NOTICE.md",
+    "tools"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  }
+}

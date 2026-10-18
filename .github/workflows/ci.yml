@@ -1,0 +1,40 @@
+name: ci
+
+# Zero dependencies, so there is nothing to install: the three gates run straight
+# from the checkout. Node 20 is DSH's floor; 22 is what most people run.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [20, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # smoke = the two halves' static contract; page = the settings page
+      # rendered and driven; controller = the injected controller executed.
+      - run: npm test
+
+  syntax:
+    # The controller ships as source into a web page, so a syntax error there is
+    # a blank screen at boot rather than a failed import. `--check` catches it
+    # before anyone sees it.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --check index.js
+      - run: node --check controller.js
+      - run: node --check client.js

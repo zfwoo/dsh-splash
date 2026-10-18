@@ -1,0 +1,29 @@
+# The Splash row.
+#
+# This bundle must be appended LAST to the profile's dsh.profile.bundles: a
+# bundle patch REPLACES the targeted row's whole `config` rather than merging
+# into it, so the `hmr` override below is the last write on that row and only
+# wins from the end of the list.
+- insert:
+    - id: dsh-splash
+      name: '@local/dsh-splash'
+      config:
+        # Fallback defaults, used only when the persisted config file is absent
+        # or unreadable. The settings page writes that file, and the Host re-reads
+        # it synchronously on every `webserver/index-inject` emit, so a change
+        # lands on the next index render.
+        enabled: true
+        preset: cyber
+
+# Development convenience, OFF by default on purpose.
+#
+# Uncomment and point the root at your checkout to make a Host-half edit
+# re-apply without restarting the app. dsh-base ships `hmr` with `root: []`
+# (module roots are opt-in), and a root that does not exist on your machine
+# leaves you wondering why edits do nothing — so this ships commented out
+# instead of pointing at somebody else's directory.
+#
+# - id: hmr
+#   config:
+#     root:
+#       - 'C:\path\to\dsh-splash'
