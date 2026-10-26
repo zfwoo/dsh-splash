@@ -1,10 +1,13 @@
 # dsh-splash
 
 **DeepSeek Harness 的赛博朋克启动画面。** 透视网格、CRT 扫描线、霓虹鲸鱼、逐行滚动的启动日志、与日志共用一条时间轴的进度计，最后以 CRT 塌缩收场。在 React 挂载**之前**就铺满屏幕，默认 10 秒，**按任意键或点击任意处跳过**。
-![license](https://img.shields.io/badge/license-MIT-2f81f7.svg)
-![node](https://img.shields.io/badge/node-%E2%89%A520-3fb950.svg)
-![dependencies](https://img.shields.io/badge/dependencies-0-3fb950.svg)
-![build](https://img.shields.io/badge/build-none-8b949e.svg)
+
+[![ci](https://github.com/zfwoo/dsh-splash/actions/workflows/ci.yml/badge.svg)](https://github.com/zfwoo/dsh-splash/actions/workflows/ci.yml)
+[![license](https://img.shields.io/badge/license-MIT-2f81f7.svg)](LICENSE)
+[![node](https://img.shields.io/badge/node-%E2%89%A520-3fb950.svg)](package.json)
+[![dependencies](https://img.shields.io/badge/dependencies-0-3fb950.svg)](package.json)
+[![build](https://img.shields.io/badge/build-none-8b949e.svg)](package.json)
+
 ![dsh-splash](./docs/screenshot.png)
 
 > 非官方第三方插件，与 DeepSeek 无隶属关系；鲸鱼标志的权利归其所有者。见 [NOTICE.md](NOTICE.md)。
@@ -219,7 +222,7 @@ MODULE_NOT_FOUND
 **源码安装（一行）：**
 
 ```bash
-dsh plugin --profile web add github:OWNER/dsh-splash
+dsh plugin --profile web add github:zfwoo/dsh-splash
 ```
 
 `dsh plugin` 转发给 pnpm，所以 `github:` 是合法 spec。**但这条路径我没有端到端验过**——验过的是下面的本地 checkout + `link:`。如果装完 `dsh` 报 `cannot resolve profile bundle`，跑一次 `node tools/link-profile.mjs web` 补链接（`link:` 是必现的，见下节）。
@@ -227,7 +230,7 @@ dsh plugin --profile web add github:OWNER/dsh-splash
 **本地 checkout（改代码时用这个）：**
 
 ```bash
-git clone https://github.com/OWNER/dsh-splash.git
+git clone https://github.com/zfwoo/dsh-splash.git
 cd dsh-splash
 
 # web（CLI 管理）
@@ -266,7 +269,7 @@ dsh: cannot resolve profile bundle "@local/dsh-splash" from the dsh installation
 
 ### 换成别的包名
 
-`dsh plugin` 转发给 pnpm，所以任何 pnpm 能解析的 spec 都能用（`github:OWNER/dsh-splash`、registry 上的包等）。**但本仓库只在「本地 checkout + `link:`」这条路径上做过端到端验证**——其它装法的问题请开 issue。
+`dsh plugin` 转发给 pnpm，所以任何 pnpm 能解析的 spec 都能用（`github:zfwoo/dsh-splash`、registry 上的包等）。**但本仓库只在「本地 checkout + `link:`」这条路径上做过端到端验证**——其它装法的问题请开 issue。
 
 改名只需三处（都是镜像，冒烟测试会告诉你漏了哪个）：`package.json` 的 `name`、`client.js` 的模块 `id`、`cordis.patch.yml` 的 `name`。改完重新 link 一次。
 

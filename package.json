@@ -28,11 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OWNER/dsh-splash.git"
+    "url": "git+https://github.com/zfwoo/dsh-splash.git"
   },
-  "homepage": "https://github.com/OWNER/dsh-splash#readme",
+  "homepage": "https://github.com/zfwoo/dsh-splash#readme",
   "bugs": {
-    "url": "https://github.com/OWNER/dsh-splash/issues"
+    "url": "https://github.com/zfwoo/dsh-splash/issues"
   },
   "exports": {
     ".": "./index.js",
