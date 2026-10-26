@@ -23,6 +23,7 @@
 - [硬约束](#两个必须先接受的硬约束)（想改它之前先读这节）
 - [安装](#安装) · [配置](#配置) · [热更新边界](#热更新边界) · [回滚](#回滚)
 - [验证](#验证) · [tools](#tools) · [扩展](#扩展)
+- [兼容性](#兼容性) · [权限与风险](#权限与风险) · [许可](#许可)
 
 ---
 
@@ -215,7 +216,15 @@ MODULE_NOT_FOUND
 
 前提：一个能跑起来的 DSH（`dsh` 在 PATH 里，或桌面应用），Node ≥ 20。**没有其它依赖，没有构建步骤**。
 
-把仓库放在任何位置，然后让某个 profile 依赖它：
+**源码安装（一行）：**
+
+```bash
+dsh plugin --profile web add github:OWNER/dsh-splash
+```
+
+`dsh plugin` 转发给 pnpm，所以 `github:` 是合法 spec。**但这条路径我没有端到端验过**——验过的是下面的本地 checkout + `link:`。如果装完 `dsh` 报 `cannot resolve profile bundle`，跑一次 `node tools/link-profile.mjs web` 补链接（`link:` 是必现的，见下节）。
+
+**本地 checkout（改代码时用这个）：**
 
 ```bash
 git clone https://github.com/OWNER/dsh-splash.git
@@ -398,10 +407,24 @@ npm run preview           # 重新生成 preview.html（6 格实时画廊）
 DSH 还是 alpha，插件 API 会变。**它依仗的三个契约**（都在本文「硬约束」一节里解释了），任何一条变了这个插件就会坏，而且通常是**静默坏**：
 
 1. 注入行的种类、顺序与 `global` 行的 `name`/`value` 语义
-2. `data-dsh-boot` / `data-dsh-boot-spinner` / `--dsh-boot-arc` 这几个内核卡片的锚点
+2. `[data-dsh-boot]` 这个内核卡片锚点（CSS 靠它隐藏、控制器靠它判断「还在卡住」）
 3. `settings.section` 的 owner props 与 `label` 是函数
 
 升级 DSH 后先跑 `npm test`（不需要 DSH）再跑 `npm run test:profile`（需要 checkout）。
+
+## 权限与风险
+
+装之前该知道它碰什么。没有一项需要联网，没有一项改 DSH 源码：
+
+| 项 | 说明 |
+|---|---|
+| 本地文件 | 读/写 `$DSH_HOME/dsh-splash.json`（几行 JSON）。**没有别的文件访问** |
+| 网络 | **零外部请求**：无遥测、无 CDN、无第三方服务 |
+| HTTP 路由 | 自注册两条 exact 路由（`GET dsh-splash.config`、`POST dsh-splash.set`），走 DSH 的 connection 围栏：无 cookie 401、跨站与非 JSON 拒绝。仅本机 |
+| 页面注入 | 官方 `webserver/index-inject` 插 6 行（2 × `global`、`script(head)`、`style`、`html(body)`、`script(body)`） |
+| 界面占用 | 开启时用 `display:none!important` 隐藏内核加载卡片；关闭、跳过或启动失败都立即让位 |
+| 依赖 | 无。不装任何 npm 包，不跑 install 脚本 |
+| 品牌素材 | 鲸鱼 path 来自 DSH 官方 UI 资产，权利归 DeepSeek，**不在 MIT 覆盖内**。见 [NOTICE.md](NOTICE.md) |
 
 ## 许可
 
